@@ -55,6 +55,7 @@ namespace ecomerce.Pages.Account
         return RedirectToPage("/Index");
     }
     catch (Exception)
+    logger.LogError(ex, "An error occurred in OnPostAsync");
     {
         throw;
     }
