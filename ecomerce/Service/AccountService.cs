@@ -47,7 +47,7 @@ namespace ecomerce.Service
             }
         }
 
-        internal async void registerAccountAsync(Account account)
+        internal async Task registerAccountAsync(Account account)
         {
             try
             {
