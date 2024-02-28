@@ -50,7 +50,7 @@ namespace ecomerce.Pages.Account
 
             try
             {
-                var acc = await _accountService.getAccount(Username, Password);
+                var acc =  _accountService.getAccount(Username, Password);
 
                 if (acc == null)
                 {
