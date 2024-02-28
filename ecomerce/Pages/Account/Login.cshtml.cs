@@ -1,28 +1,26 @@
+using ecomerce.Models;
 using ecomerce.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace ecomerce.Pages.Account
 {
     public class LoginModel : PageModel
     {
-
-
-        private readonly AccountService _accountService = new AccountService();
-
-
+        private readonly AccountService _accountService;
+        private readonly ILogger<LoginModel> _logger;
 
         [BindProperty]
-        public string? capCha { get; set; }
+        public string capCha { get; set; }
 
         [BindProperty]
         public string validate { get; set; } = "";
-        public void OnGet()
-        {
-            validate = GenerateRandomString();
-            capCha = string.Join(" ", validate.ToCharArray());
-        }
 
         [BindProperty]
         public string Username { get; set; }
@@ -30,36 +28,48 @@ namespace ecomerce.Pages.Account
         [BindProperty]
         public string Password { get; set; }
 
-        public async Task<IActionResult> OnPostAsync()
-{
-    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
-    {
-        setNotice("Input all the field");
-        return Page();
-    }
-    
-    try
-    {
-        var acc = await _accountService.getAccount(Username, Password);
-        
-        if (acc == null)
+        public LoginModel(AccountService accountService, ILogger<LoginModel> logger)
         {
-            setNotice("Wrong Username or Password");
-            return Page();
+            _accountService = accountService;
+            _logger = logger;
         }
-        
-        var sessionStr = acc.Type ? "staff" : "customer";
-        var accJson = JsonSerializer.Serialize<Models.Account>(acc);
-        HttpContext.Session.SetString(sessionStr, accJson.ToString());
-        
-        return RedirectToPage("/Index");
-    }
-    catch (Exception)
-    logger.LogError(ex, "An error occurred in OnPostAsync");
-    {
-        throw;
-    }
-}
+
+        public void OnGet()
+        {
+            validate = GenerateRandomString();
+            capCha = string.Join(" ", validate.ToCharArray());
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+            {
+                setNotice("Input all the fields");
+                return Page();
+            }
+
+            try
+            {
+                var acc = await _accountService.getAccount(Username, Password);
+
+                if (acc == null)
+                {
+                    setNotice("Wrong Username or Password");
+                    return Page();
+                }
+
+                var sessionStr = acc.Type ? "staff" : "customer";
+                var accJson = JsonSerializer.Serialize(acc);
+                HttpContext.Session.SetString(sessionStr, accJson);
+
+                return RedirectToPage("/Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in OnPostAsync");
+                throw;
+            }
+        }
 
         public void setNotice(string notice)
         {
@@ -68,17 +78,17 @@ namespace ecomerce.Pages.Account
             ViewData["notice"] = notice;
         }
 
-public static string GenerateRandomString()
-{
-    Random rnd = new Random();
-    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    StringBuilder resultBuilder = new StringBuilder();
-    for (int i = 0; i < 6; i++)
-    {
-        resultBuilder.Append(chars[rnd.Next(chars.Length)]);
-    }
-    string result = resultBuilder.ToString();
-    return result;
-}
+        public static string GenerateRandomString()
+        {
+            Random rnd = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            StringBuilder resultBuilder = new StringBuilder();
+            for (int i = 0; i < 6; i++)
+            {
+                resultBuilder.Append(chars[rnd.Next(chars.Length)]);
+            }
+            string result = resultBuilder.ToString();
+            return result;
+        }
     }
 }
