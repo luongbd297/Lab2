@@ -12,13 +12,6 @@ namespace ecomerce.Pages.Account
 {
     public class ProfileModel : PageModel
     {
-        private readonly ecomerce.Models.MyStoreContext _context;
-
-        public ProfileModel(ecomerce.Models.MyStoreContext context)
-        {
-            _context = context;
-        }
-
         public Models.Account Account { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync()
