@@ -68,16 +68,17 @@ namespace ecomerce.Pages.Account
             ViewData["notice"] = notice;
         }
 
-        public static string GenerateRandomString()
-        {
-            Random rnd = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            string result = "";
-            for (int i = 0; i < 6; i++)
-            {
-                result += chars[rnd.Next(chars.Length)];
-            }
-            return result;
-        }
+public static string GenerateRandomString()
+{
+    Random rnd = new Random();
+    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    StringBuilder resultBuilder = new StringBuilder();
+    for (int i = 0; i < 6; i++)
+    {
+        resultBuilder.Append(chars[rnd.Next(chars.Length)]);
+    }
+    string result = resultBuilder.ToString();
+    return result;
+}
     }
 }
