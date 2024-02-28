@@ -7,6 +7,7 @@ namespace ecomerce.Pages
     {
         public void OnGet()
         {
+        // Need implement
         }
     }
 }
