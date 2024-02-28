@@ -127,9 +127,6 @@ public partial class MyStoreContext : DbContext
             entity.Property(e => e.CompanyName).HasMaxLength(50);
             entity.Property(e => e.Phone).HasMaxLength(12);
         });
-
-        OnModelCreatingPartial(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
