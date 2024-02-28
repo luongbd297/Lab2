@@ -7,7 +7,6 @@ namespace ecomerce.Pages.Account
     {
         public async Task<IActionResult> OnGet()
         {
-            //HttpContext.Session.Clear();
             HttpContext.Session.Remove("staff");
             HttpContext.Session.Remove("customer");
 
