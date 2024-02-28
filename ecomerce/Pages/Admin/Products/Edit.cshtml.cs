@@ -16,9 +16,9 @@ namespace ecomerce.Pages.Admin.Products
     public class EditModel : PageModel
     {
 
-        private ProductService productService = new ProductService();
-        private CategoryService categoryService = new CategoryService();
-        private SupplierService supplierService = new SupplierService();
+        private readonly ProductService productService = new ProductService();
+        private readonly CategoryService categoryService = new CategoryService();
+        private readonly SupplierService supplierService = new SupplierService();
         private readonly IHubContext<SignalHub> _hubContext;
         public EditModel(IHubContext<SignalHub> hubContext)
         {
