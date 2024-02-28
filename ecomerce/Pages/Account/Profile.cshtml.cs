@@ -18,7 +18,7 @@ namespace ecomerce.Pages.Account
         {
             var staff = HttpContext.Session.GetString("staff");
             var cus = HttpContext.Session.GetString("customer");
-            string acc = null;
+            string acc = string.Empty;
             if (staff != null) acc = staff;
             else if (cus != null) acc = cus;
 
