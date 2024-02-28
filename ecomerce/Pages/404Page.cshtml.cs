@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ecomerce.Pages
 {
-    public class _404PageModel : PageModel
+    public class NotFoundPageModel : PageModel
     {
         public void OnGet()
         {
