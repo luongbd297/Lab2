@@ -14,7 +14,7 @@ namespace ecomerce.Pages.Account
 
 
         [BindProperty]
-        public string capCha { get; set; }
+        public string? capCha { get; set; }
 
         [BindProperty]
         public string validate { get; set; } = "";
