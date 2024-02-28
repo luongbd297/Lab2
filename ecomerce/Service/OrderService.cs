@@ -17,21 +17,26 @@ namespace ecomerce.Service
         {
             try
             {
-                Product product = dbContext.Products.FirstOrDefault(p => p.ProductId == productID);
-                Order o = new Order
-                {
-                    CustomerId = id,
-                    ShipAddress = address,
-                };
-                o.OrderDetails.Add(new OrderDetail
-                {
-                    ProductId = productID,
-                    Price = product.Price,
-                    Quantity = quantity,
-                    Product = product
-                });
-                dbContext.Orders.Add(o);
-                dbContext.SaveChanges();
+                    Product product = dbContext.Products.FirstOrDefault(p => p.ProductId == productID);
+    
+    if (product != null)
+    {
+        Order o = new Order
+        {
+            CustomerId = id,
+            ShipAddress = address,
+        };
+        o.OrderDetails.Add(new OrderDetail
+        {
+            ProductId = productID,
+            Price = product.Price,
+            Quantity = quantity,
+            Product = product
+        });
+        
+        dbContext.Orders.Add(o);
+        dbContext.SaveChanges();
+    }
             }
             catch (Exception)
             {
