@@ -13,11 +13,17 @@ namespace ecomerce.Pages.Customer
         public decimal total = 0;
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null) return RedirectToPage("/404Page");
-            Order = orderService.getOrder(id);
-            OrderDetail = orderService.getOrderDetails(id);
-            total = (decimal)OrderDetail.Sum(od => od.Price * od.Quantity);
-            return Page();
+if (id == null)
+{
+    return RedirectToPage("/404Page");
+}
+else
+{
+    Order = orderService.getOrder(id);
+    OrderDetail = orderService.getOrderDetails(id);
+    total = (decimal)OrderDetail.Sum(od => od.Price * od.Quantity);
+    return Page();
+}
         }
     }
 }
