@@ -41,7 +41,6 @@ namespace ecomerce.Pages.Admin.Category
             var check =  categoryService.updateCategory(Category);
             if (!check) ViewData["notice"] = "Category already exist";
             else ViewData["notice"] = "Update Success";
-            Category = Category;
             return Page();
         }
 
