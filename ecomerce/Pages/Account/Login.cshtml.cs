@@ -31,32 +31,34 @@ namespace ecomerce.Pages.Account
         public string Password { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
+{
+    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+    {
+        setNotice("Input all the field");
+        return Page();
+    }
+    
+    try
+    {
+        var acc = await _accountService.getAccount(Username, Password);
+        
+        if (acc == null)
         {
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
-            {
-                setNotice("Input all the field");
-                return Page();
-            }
-            try
-            {
-                var acc = _accountService.getAccount(Username, Password);
-                if (acc == null)
-                {
-                    setNotice("Wrong Username or Password");
-                    return Page();
-                }
-                var sessionStr = acc.Type ? "staff" : "customer";
-                var accJson = JsonSerializer.Serialize<Models.Account>(acc);
-                HttpContext.Session.SetString(sessionStr, accJson.ToString());
-                return RedirectToPage("/Index");
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            setNotice("Wrong Username or Password");
+            return Page();
         }
+        
+        var sessionStr = acc.Type ? "staff" : "customer";
+        var accJson = JsonSerializer.Serialize<Models.Account>(acc);
+        HttpContext.Session.SetString(sessionStr, accJson.ToString());
+        
+        return RedirectToPage("/Index");
+    }
+    catch (Exception)
+    {
+        throw;
+    }
+}
 
         public void setNotice(string notice)
         {
