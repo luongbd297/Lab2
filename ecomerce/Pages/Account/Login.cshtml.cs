@@ -9,7 +9,7 @@ namespace ecomerce.Pages.Account
     {
 
 
-        private AccountService _accountService = new AccountService();
+        private readonly AccountService _accountService = new AccountService();
 
 
 
